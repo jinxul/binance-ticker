@@ -20,4 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Binance Ticker"
-include(":app")
+include(":presentation")
