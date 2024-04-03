@@ -32,10 +32,14 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
 
+    implementation(platform(libs.okhttp.bom))
     implementation(libs.bundles.data)
     kapt(libs.hilt.compiler)
 
