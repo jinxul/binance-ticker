@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.jetbrains.kotlin.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -35,10 +37,17 @@ android {
 dependencies {
 
     implementation(libs.bundles.domain)
+    kapt(libs.hilt.compiler)
 
     implementation(project(":data"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+kapt {
+    correctErrorTypes = true
+}
+hilt {
+    enableAggregatingTask = true
 }
