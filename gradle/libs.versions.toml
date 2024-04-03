@@ -25,4 +25,18 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
+[bundles]
+presentation = [
+    "androidx-core-ktx",
+    "androidx-appcompat",
+    "material",
+    "androidx-constraintlayout",
+    "androidx-navigation-fragment-ktx",
+    "androidx-navigation-ui-ktx",
+]
+domain = [
+]
+data = [
+]
