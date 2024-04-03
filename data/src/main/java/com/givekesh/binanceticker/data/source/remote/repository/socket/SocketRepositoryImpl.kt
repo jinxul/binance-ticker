@@ -1,7 +1,9 @@
 package com.givekesh.binanceticker.data.source.remote.repository.socket
 
 import com.givekesh.binanceticker.data.entity.socket.request.SocketRequest
+import com.givekesh.binanceticker.data.entity.ticker.response.TickerResponse
 import com.givekesh.binanceticker.data.util.SocketListener
+import com.givekesh.binanceticker.data.util.fromJsonList
 import com.givekesh.binanceticker.data.util.toJson
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
@@ -20,7 +22,7 @@ internal class SocketRepositoryImpl @Inject constructor(
     private var webSocket: WebSocket? = null
 
     @Synchronized
-    override fun listenToTicker(listener: SocketListener) {
+    override fun listenToTicker(listener: SocketListener<List<TickerResponse>>) {
         if (webSocket == null) {
             webSocket = okHttpClient.newWebSocket(request, object : WebSocketListener() {
                 override fun onOpen(webSocket: WebSocket, response: Response) {
@@ -34,7 +36,10 @@ internal class SocketRepositoryImpl @Inject constructor(
 
                 override fun onMessage(webSocket: WebSocket, text: String) {
                     super.onMessage(webSocket, text)
-                    listener.onMessage(text)
+                    if (text.startsWith("[")) {
+                        moshi.fromJsonList<TickerResponse>(text)
+                            ?.also { listener.onMessage(it) }
+                    }
                 }
             })
         }
