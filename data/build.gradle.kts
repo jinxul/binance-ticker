@@ -36,6 +36,7 @@ android {
 
 dependencies {
 
+    implementation(platform(libs.okhttp.bom))
     implementation(libs.bundles.data)
     kapt(libs.hilt.compiler)
 
