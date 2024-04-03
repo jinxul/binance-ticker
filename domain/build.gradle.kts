@@ -1,20 +1,17 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
-    namespace = "com.givekesh.binanceticker"
+    namespace = "com.givekesh.binanceticker.domain"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.givekesh.binanceticker"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 10000
-        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -33,16 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
 
-    implementation(libs.bundles.presentation)
-
-    implementation(project(":domain"))
+    implementation(libs.bundles.domain)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
