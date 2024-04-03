@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.givekesh.binanceticker.domain"
+    namespace = "com.givekesh.binanceticker.data"
     compileSdk = 34
 
     defaultConfig {
@@ -34,9 +34,7 @@ android {
 
 dependencies {
 
-    implementation(libs.bundles.domain)
-
-    implementation(project(":data"))
+    implementation(libs.bundles.data)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Binance Ticker"
 include(":presentation")
 include(":domain")
+include(":data")
