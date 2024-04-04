@@ -8,9 +8,6 @@ import android.view.ViewGroup
 import com.givekesh.binanceticker.databinding.FragmentTickerBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 @AndroidEntryPoint
 class TickerFragment : Fragment() {
 
@@ -20,23 +17,33 @@ class TickerFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private var _tickerAdapter: TickerAdapter? = null
+    private val tickerAdapter get() = _tickerAdapter!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentTickerBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupAdapter()
+    }
+
+    private fun setupAdapter() {
+        if (_tickerAdapter == null) {
+            _tickerAdapter = TickerAdapter()
+        }
+        binding.tickerList.adapter = tickerAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _tickerAdapter = null
         _binding = null
     }
 }
