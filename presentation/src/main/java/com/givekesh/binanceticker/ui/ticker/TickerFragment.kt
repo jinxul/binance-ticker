@@ -5,8 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.givekesh.binanceticker.databinding.FragmentTickerBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TickerFragment : Fragment() {
@@ -20,6 +25,9 @@ class TickerFragment : Fragment() {
     private var _tickerAdapter: TickerAdapter? = null
     private val tickerAdapter get() = _tickerAdapter!!
 
+    private val viewModel: TickerViewModel by viewModels()
+    private var tickerJob: Job? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +40,20 @@ class TickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupAdapter()
+        subscribeToTicker()
+        getTickerData()
+    }
+
+    private fun subscribeToTicker() {
+        tickerJob = viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.tickerDataState.collectLatest { tickerData ->
+                tickerAdapter.updateItems(tickerData)
+            }
+        }
+    }
+
+    private fun getTickerData() {
+        viewModel.listenToTicker()
     }
 
     private fun setupAdapter() {
@@ -43,6 +65,8 @@ class TickerFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        tickerJob?.cancel()
+        tickerJob = null
         _tickerAdapter = null
         _binding = null
     }
