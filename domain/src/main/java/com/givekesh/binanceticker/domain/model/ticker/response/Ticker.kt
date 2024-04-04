@@ -1,4 +1,4 @@
-package com.givekesh.binanceticker.domain.model.response
+package com.givekesh.binanceticker.domain.model.ticker.response
 
 data class Ticker(
     val symbol: String,

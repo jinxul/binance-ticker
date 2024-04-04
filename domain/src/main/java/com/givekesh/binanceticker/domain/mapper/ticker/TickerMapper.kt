@@ -1,7 +1,7 @@
 package com.givekesh.binanceticker.domain.mapper.ticker
 
 import com.givekesh.binanceticker.data.entity.ticker.response.TickerResponse
-import com.givekesh.binanceticker.domain.model.response.Ticker
+import com.givekesh.binanceticker.domain.model.ticker.response.Ticker
 import com.givekesh.binanceticker.domain.util.ObjectToObjectMapper
 import javax.inject.Inject
 
