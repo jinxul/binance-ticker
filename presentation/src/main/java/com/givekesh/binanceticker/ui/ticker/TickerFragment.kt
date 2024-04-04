@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.binanceticker.databinding.FragmentTickerBinding
@@ -48,6 +50,9 @@ class TickerFragment : Fragment() {
         tickerJob = viewLifecycleOwner.lifecycleScope.launch {
             viewModel.tickerDataState.collectLatest { tickerData ->
                 tickerAdapter.updateItems(tickerData)
+                if (tickerData.isNotEmpty() && binding.loading.isVisible) {
+                    binding.loading.isGone = true
+                }
             }
         }
     }
