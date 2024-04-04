@@ -1,4 +1,4 @@
-package com.givekesh.binanceticker
+package com.givekesh.binanceticker.ui.ticker
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

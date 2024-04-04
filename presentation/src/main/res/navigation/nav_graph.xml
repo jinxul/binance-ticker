@@ -7,6 +7,6 @@
 
     <fragment
         android:id="@+id/TickerFragment"
-        android:name="com.givekesh.binanceticker.TickerFragment"
+        android:name="com.givekesh.binanceticker.ui.ticker.TickerFragment"
         tools:layout="@layout/fragment_ticker" />
 </navigation>
