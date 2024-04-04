@@ -65,7 +65,10 @@ class TickerFragment : Fragment() {
         if (_tickerAdapter == null) {
             _tickerAdapter = TickerAdapter()
         }
-        binding.tickerList.adapter = tickerAdapter
+        binding.tickerList.apply {
+            adapter = tickerAdapter
+            itemAnimator = null
+        }
     }
 
     override fun onDestroyView() {
