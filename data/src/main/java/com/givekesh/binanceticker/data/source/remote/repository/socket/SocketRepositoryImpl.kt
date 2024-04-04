@@ -1,5 +1,6 @@
 package com.givekesh.binanceticker.data.source.remote.repository.socket
 
+import android.util.Log
 import com.givekesh.binanceticker.data.entity.socket.request.SocketRequest
 import com.givekesh.binanceticker.data.entity.ticker.response.TickerResponse
 import com.givekesh.binanceticker.data.util.SocketListener
@@ -20,6 +21,7 @@ internal class SocketRepositoryImpl @Inject constructor(
 ) : SocketRepository {
     @Volatile
     private var webSocket: WebSocket? = null
+    private val TAG = "Socket"
 
     @Synchronized
     override fun listenToTicker(listener: SocketListener<List<TickerResponse>>) {
@@ -31,7 +33,8 @@ internal class SocketRepositoryImpl @Inject constructor(
                         method = "SUBSCRIBE",
                         params = listOf("!ticker@arr")
                     ).let { moshi.toJson(it) } ?: return
-                    webSocket.send(request)
+                    val result = webSocket.send(request)
+                    Log.d(TAG, "onOpen $result")
                 }
 
                 override fun onMessage(webSocket: WebSocket, text: String) {
@@ -40,6 +43,14 @@ internal class SocketRepositoryImpl @Inject constructor(
                         moshi.fromJsonList<TickerResponse>(text)
                             ?.also { listener.onMessage(it) }
                     }
+                }
+
+                override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+                    super.onFailure(webSocket, t, response)
+                    Log.d(TAG, "onFailure $response", t)
+                    this@SocketRepositoryImpl.webSocket = null
+                    webSocket.cancel()
+                    listenToTicker(listener)
                 }
             })
         }
